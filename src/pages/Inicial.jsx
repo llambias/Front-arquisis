@@ -20,8 +20,8 @@ const Inicial = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
     return (
-    <>
-    <div className="left_side">
+  <section className="container">
+    <section className="content">
       <div className="p-4 max-w-2xl mx-auto">
         <h2 className="text-2xl font-bold mb-4">Stocks</h2>
         <table align='center'>
@@ -46,7 +46,6 @@ const Inicial = () => {
           ))}
         </tbody>
         </table>
-          
         <div className="button-container" align='center'>
           <button
             onClick={handlePreviousPage}
@@ -66,32 +65,29 @@ const Inicial = () => {
             Siguiente
           </button>
         </div>
+        
       
       </div>
-    </div>
-    <div className='right_side'>
-      <div className="form-section">
-        <h2>Cantidad mostrada</h2>
-        <input type="number" name="cantidad" placeholder="25"/>
-      </div>
-      <div className="form-section">
-        <h2>Formulario</h2>
+    </section>
+    <section className="sidebar">
+    <div className="form-section">
+        <h2>Formulario de Stocks</h2>
         <form >
           <label>
-            Nombre:
-            <input type="text" name="nombre" placeholder="Nombre"/>
+            Precio:
+            <input type="text" name="precio" placeholder="Precio"/>
           </label>
           <br />
           <label>
-            Email:
-            <input type="email" name="email" placeholder="email"  />
+            nombre:
+            <input type="text" name="nombre" placeholder="ej:amzn"  />
           </label>
           <br />
           <button type="submit">Enviar</button>
         </form>
       </div>
-    </div>
-  </>
+    </section>
+  </section>
   );    
 }
 export default Inicial;

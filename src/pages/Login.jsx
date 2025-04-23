@@ -3,11 +3,9 @@ import { useState, useContext } from "react";
 import { IconButton } from "rsuite";
 import { Unvisible} from '@rsuite/icons';
 import { Link, useNavigate } from "react-router-dom";
-import './LoginBox.css';
+import './Login.css';
 import axios from "axios";
-import icono_usuario from "../assets/icono_usuario.png";
 
-import { AuthContext } from "../auth/AuthContext";
 import  URL_BACK   from "../../config";
 //const navigate = useNavigate();
 
@@ -33,11 +31,8 @@ function LoginBox() {
       }).then((response) => {
         console.log('Login successful', email);
         console.log(response);
-        // setError(false);
-        // setMsg("Login exitoso!");
         // Recibimos el token y lo procesamos
         const access_token = response.data.access_token;
-        //localStorage.setItem('token', access_token);
         setToken(access_token);
         console.log("Se seteo el token: ", access_token);
         navigate('/Principal');
@@ -55,7 +50,7 @@ function LoginBox() {
         <div className="top_card">
             <div className='ingresas_datos'>
                 <h4>Ingrese sus datos</h4>
-                <img src={icono_usuario}></img>
+                
 
             </div>
             

@@ -10,7 +10,7 @@ export default function Navbar() {
                     <div className='nav-left'>
                     </div>
                     <div className='nav-right'>
-                        <Link className='links' to="/Instructions">Instrucciones</Link>
+                        <Link className='links' to="/Signin">Registrarse</Link>
                         
                         <Link className='links' to="/Login">Iniciar Sesión</Link>
                     </div>

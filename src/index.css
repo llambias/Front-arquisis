@@ -23,7 +23,7 @@ a:hover {
 } */
 
 body {
-  background-color: rgb(224, 250, 251);
+  background-color: rgb(199, 187, 187);
   margin: 0;
   display: flex;
   place-items: center;
@@ -34,11 +34,17 @@ body {
 h1 {
   font-size: 3.0em;
   line-height: 1.1;
+}.container {
+  display: flex; /* Use flexbox layout */
+  width:100%;
+  background-color: inherit;
+  top: 100%;
+  left: 100%;
 }
 
 button{
   background: black;
-  color: white;
+  color:rgb(199, 187, 187);;
  border: none;
  border-radius: 0.5em;
  font-size: 15px;
@@ -48,8 +54,9 @@ button{
 
 }
 
+
 button:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 /* button:focus,
 button:focus-visible {

@@ -9,7 +9,7 @@
     flex-direction: column;
     height: 350px;
     width: 350px;
-    color: #3e4144;
+    color: #413445;
 }
 
 .top_card{
@@ -31,101 +31,9 @@
 .container{
     top: 50%;
     left: 50%;
-    background-color: #87cefa;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    
+
 }
 
-img{
-    width: 80px;
-    height: auto;
-    max-height: 180px;
-}
 
-.full {
-    background-color: #2176bb;
-    width: 200px;
-    height: 50px;
-    color: #ffffff;
-    text-align: center;
-    border-radius: 10px;
-    font-size: large;
-    align-content: center;
-}
 
-.full:hover{
-    color: #2176bb;
-    background-color: #e0ffff;
-}
-
-.clean {
-    background-color: #87cefa;
-    height: 30px;
-    color: #3e4144;
-}
-
-.clean:hover{
-    color: #ffffff;
-    background-color: #87cefa;
-    border: #87cefa;
-}
-
-label{
-  font-weight: bold;
-  display: block;
-  align-items: stretch;
-  float: left;
-  height: 70px;
-}
-
-label:hover {
-    transform: translateY(0px);
-    transform: translateX(0px);
-}
-
-.ingresar_datos {
-    margin-bottom: 500px;
-}
-
-.input_ {
-    width: 300px;
-}
-
-.eye_icon {
-    width: 30px;
-    height: 30px;
-    background-color: #87cefa;
-    color: #3e4144;
-}
-
-.eye_icon:hover {
-    background-color: #87cefa;
-    border: #87cefa;
-    color: #3e4144;
-}.button {
-    padding: 12.5px 30px;
-    border: 0;
-    border-radius: 100px;
-    background-color: #B0E0E6;
-    color: #3e4144;
-    font-weight: Bold;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    margin-top: 10px;
-  }
-  
-  .button:hover {
-    background-color: #6fc5ff;
-    box-shadow: 0 0 20px #AEF8F8;
-    transform: scale(1.1);
-  }
-  
-  .button:active {
-    background-color: #007bff;
-    transition: all 0.25s;
-    -webkit-transition: all 0.25s;
-    box-shadow: none;
-    transform: scale(0.98);
-  }
