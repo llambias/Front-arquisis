@@ -1,0 +1,48 @@
+.main-nav-div {
+    position: fixed;
+    align-items: center;
+    background-color: #7c8094;
+    
+    justify-items: space-between;
+    height: 50px; 
+}
+
+.navbar {
+    display: flex;
+    justify-items: space-between;
+    align-items: center;
+    background-color: #7c8094;
+    height: 50px; 
+    flex-direction: row;
+    margin: auto;
+    padding: auto;
+}
+
+.nav-left {
+    padding-left: 5px;
+}
+
+.nav-right {
+    margin-right: 10px;
+}
+
+
+li,
+a {
+    font-family: "Italic", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #3e4144;
+    text-decoration: none;
+    margin: 10px;
+}
+
+.links {
+    color: #252729; /* Cambia el color de la letra de los links */
+}
+
+.nav-logo {
+    max-height: 70px; /* Ajusta este valor según tus necesidades */
+    object-fit: cover;
+    width: 100%;
+}
