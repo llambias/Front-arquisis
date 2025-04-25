@@ -1,5 +1,6 @@
 import './Inicial.css';
 import React, { useState } from 'react';
+import SidebarBox from '../components/SidebarBox';
 
 const items = Array.from({ length: 250 }, (_, i) => `Elemento ${i + 1}`); // Lista de prueba
 const ITEMS_PER_PAGE = 25;
@@ -50,7 +51,7 @@ const Inicial = () => {
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
-            
+            style={{ width: 'auto', height: '2em' }}
           >
             Anterior
           </button>
@@ -60,7 +61,7 @@ const Inicial = () => {
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            
+            style={{ width: 'auto', height: '2em' }}
           >
             Siguiente
           </button>
@@ -70,22 +71,9 @@ const Inicial = () => {
       </div>
     </section>
     <section className="sidebar">
-    <div className="form-section">
-        <h2>Formulario de Stocks</h2>
-        <form >
-          <label>
-            Precio:
-            <input type="text" name="precio" placeholder="Precio"/>
-          </label>
-          <br />
-          <label>
-            nombre:
-            <input type="text" name="nombre" placeholder="ej:amzn"  />
-          </label>
-          <br />
-          <button type="submit">Enviar</button>
-        </form>
-      </div>
+    
+      <SidebarBox></SidebarBox>
+      
     </section>
   </section>
   );    

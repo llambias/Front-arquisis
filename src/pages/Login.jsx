@@ -21,61 +21,26 @@ function LoginBox() {
       event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
       // Aquí puedes añadir la lógica para enviar los datos a tu backend o API
       console.log(URL_BACK,"email" ,email,password);
-      axios.post(`${URL_BACK}/login`, {
-        "email": email,
-        "password": password
-        
-      },{
-        headers : {
-          "Content-Type": "application/json"} 
-      }).then((response) => {
-        console.log('Login successful', email);
-        console.log(response);
-        // Recibimos el token y lo procesamos
-        const access_token = response.data.access_token;
-        setToken(access_token);
-        console.log("Se seteo el token: ", access_token);
-        navigate('/Principal');
-      }).catch((error) => {
-        console.error('An error occurred while trying to login:', error);
-        //setError(true);// aquí puede haber más lógica para tratar los errores
-      })
+      
     };
 
   return (
     <>
-    <div className="container">
-      <div className="login_card">
-        <form onSubmit={handleSubmit}>
-        <div className="top_card">
-            <div className='ingresas_datos'>
-                <h4>Ingrese sus datos</h4>
-                
-
-            </div>
-            
-            <label className='label_nombre_usuario'>
-            Email de Usuario:
-                <input type='text' className='input_' 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}></input>
-            </label>
-            <label className='label_contrasena'>
-            Contraseña:
-                <IconButton icon={<Unvisible />} 
-                appearance="primary" className="eye_icon" onClick={togglePasswordVisibility} />
-                <input type={passwordVisibility} className='input_' 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}></input>
-            </label>
-        </div>
-        <div className="bottom_card">
-          <button className="button" onClick={e=>handleSubmit(e)} >Iniciar sesión</button>
-          <Link className="clean" to="/Register">¿No tienes cuenta? Regístrate</Link>
-        </div>  
-        </form>      
-      </div>
+    <div className="card" align=" center">
+  <h4 className="title">Log In!</h4>
+  <form>
+    <div className="field">
+      
+      <input  id="logemail" placeholder="Email" className="input-field" name="logemail" type="email"></input>
     </div>
+    <div className="field">
+      
+      <input autocomplete="off" id="logpass" placeholder="Password" className="input-field" name="logpass" type="password"></input>
+    </div>
+    <button  type="submit">Login</button>
+    <Link to="/Singin" className="btn-link">Sin cuenta?</Link>
+  </form>
+</div>
       
     </>
   )

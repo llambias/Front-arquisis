@@ -1,28 +1,20 @@
 
-.right_side{
-  width: 550px;
-  display: flex;
-  justify-content: center;
-}
-.left_side{
-    width: 1000px;
-    justify-content: center;
-}
+
 .button-container{
   
   justify-content: space-between;
   align-items: center; 
   margin: 20px;
+  
 }
 button{
-  background: black;
-  color: white;
- border: none;
- border-radius: 0.5em;
- font-size: 15px;
- font-weight: bold;
- cursor: pointer;
- margin:10px;
+  width: auto;
+ height: 2em;
+ margin: 5px;
+ 
+}
+button:disabled {
+  opacity: 0.5;
 }
 .container {
   display: flex; /* Use flexbox layout */
@@ -33,6 +25,7 @@ button{
 }
 .sidebar {
   flex: 0 0 25%; /* Set the initial and minimum width of the sidebar to 25% */
+  background-color: rgb(139, 132, 132);
   
 }
 .content {
@@ -51,4 +44,3 @@ td {
   border: 1px solid rgb(100, 100, 100);
   padding: 8px 10px;
 }
-/* className="flex justify-between items-center" */

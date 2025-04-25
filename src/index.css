@@ -31,6 +31,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  font-family:  Helvetica;
 }
 
 h1 {
@@ -53,10 +54,9 @@ button{
  font-weight: bold;
  cursor: pointer;
  font-family: inherit;
-
+ width: auto;
+ height: 2em;
 }
-
-
 button:hover {
   transform: scale(1.1);
 }
