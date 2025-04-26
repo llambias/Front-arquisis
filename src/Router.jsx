@@ -14,7 +14,7 @@ function Router() {
   return (
     <Routes>
       <Route path={"/"} element={<LandingPage />} />
-      <Route path={"/Login"} element={<Login />} />
+      <Route path={"/login"} element={<Login />} />
       <Route path={"/register"} element={<Register />} />
       <Route path={"/stocks"} element={<Inicial />} />
       <Route element={<PrivateWrapper />}>

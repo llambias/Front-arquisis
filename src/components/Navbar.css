@@ -46,7 +46,18 @@ a {
 }
 
 .links {
-    color: #252729; /* Cambia el color de la letra de los links */
+    color: #000000; /* Cambia el color de la letra de los links */
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    padding: 10px 15px;
+    color: #000000;
+    background-color: #ffffff;
+}
+
+.links:hover {
+    background-color: #f5f5f5;
 }
 
 .nav-logo {
