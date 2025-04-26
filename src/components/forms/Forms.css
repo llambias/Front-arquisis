@@ -1,0 +1,47 @@
+.form-input-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  padding: 0rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  height: 2.8rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input-container:focus-within {
+  outline: none;
+  border-color: #252525;
+  border-width: 2px;
+}
+
+.custom-text-input {
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+  outline: none;
+}
+
+.custom-submit-button {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  height: 2.8rem;
+}
+
+.custom-submit-button:hover {
+  background-color: #252525;
+}
+
+.eye-icon {
+  width: 20px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}

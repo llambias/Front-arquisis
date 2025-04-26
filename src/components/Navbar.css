@@ -1,19 +1,26 @@
 .main-nav-div {
-    position: fixed;
-    align-items: center;
+    position: sticky;
     background-color: #7c8094;
     top: 0;
     right: 0;
     left: 0;
-    justify-items: space-between;
-    height: 50px; 
+    height: 70px; 
+    width: 100%;
+    padding-left: 100px;
+    padding-right: 100px;
+    z-index: 100;
 }
 
 .navbar {
-    align-items: center;
     display: flex;
     flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
     margin: auto;
+    margin-left: 1rem;
+    margin-right: 1rem;
     padding: auto;
 }
 
@@ -23,6 +30,9 @@
 
 .nav-right {
     margin-right: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
 }
 
 
@@ -43,4 +53,7 @@ a {
     max-height: 70px; /* Ajusta este valor según tus necesidades */
     object-fit: cover;
     width: 100%;
+    font-family: sans-serif;
+    font-size: 1.25rem;
+    font-weight: bold;
 }

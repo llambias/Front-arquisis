@@ -8,9 +8,10 @@ export default function Navbar() {
             <div className="main-nav-div">
                 <nav className='navbar'>
                     <div className='nav-left'>
+                        <p className='nav-logo'>Stock Market</p>
                     </div>
                     <div className='nav-right'>
-                        <Link className='links' to="/Signin">Registrarse</Link>
+                        <Link className='links' to="/register">Registrarse</Link>
                         
                         <Link className='links' to="/Login">Iniciar Sesión</Link>
                     </div>
