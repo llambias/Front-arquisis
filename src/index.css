@@ -41,14 +41,12 @@ h1 {
 
 button{
   background: black;
-  color:rgb(199, 187, 187);;
+  color:rgb(255, 252, 252);
  border: none;
  border-radius: 0.5em;
  font-size: 15px;
- font-weight: bold;
  cursor: pointer;
  font-family: inherit;
-
 }
 
 
