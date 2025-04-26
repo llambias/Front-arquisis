@@ -17,6 +17,12 @@ const Inicial = () => {
   const [stocks, setStocks] = useState<Stock[]>(stocksData);
   const [sortField, setSortField] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
+  const [filters, setFilters] = useState({
+    symbol: "",
+    price: "",
+    quantity: "",
+    date: "",
+  });
 
   const totalPages = Math.ceil(stocks.length / ITEMS_PER_PAGE);
 
@@ -56,11 +62,52 @@ const Inicial = () => {
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentStocks = stocks.slice(indexOfFirstItem, indexOfLastItem);
 
+  const handleFilter = () => {
+    console.log("Filtrar");
+    console.log(filters);
+  };
+
   return (
-    <section className="container">
+    <section className="stocks-container">
       <div className="header">
         <h1>Stocks Disponibles</h1>
-        <p>Revisa y compra stocks a tu gusto</p>
+      </div>
+      <div className="pagination">
+        <input
+          type="text"
+          placeholder="Símbolo"
+          className="filter-input"
+          value={filters.symbol}
+          onChange={(e) => setFilters({ ...filters, symbol: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Precio máximo"
+          className="filter-input"
+          value={filters.price}
+          onChange={(e) => setFilters({ ...filters, price: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Cantidad"
+          className="filter-input"
+          value={filters.quantity}
+          onChange={(e) => setFilters({ ...filters, quantity: e.target.value })}
+        />
+        <input
+          type="date"
+          placeholder="Fecha"
+          className="filter-input"
+          value={filters.date}
+          onChange={(e) => setFilters({ ...filters, date: e.target.value })}
+        />
+        <button
+          className="paginationButton"
+          onClick={handleFilter}
+          disabled={currentPage === totalPages}
+        >
+          Filtrar
+        </button>
       </div>
       <div className="tableContainer">
         <table className="stocksTable">

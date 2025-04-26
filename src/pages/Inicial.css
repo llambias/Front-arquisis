@@ -1,14 +1,14 @@
-.container {
+.stocks-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0rem 1rem;
-  min-height: 100vh;
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
 }
 
 .header {
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   text-align: center;
 }
 
@@ -177,4 +177,18 @@
   .pageInfo {
     font-size: 0.75rem;
   }
+}
+
+.filter-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #fff;
+  color: rgb(81, 81, 81);
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.filter-input:focus {
+  /* outline: none; */
+  outline-color: #4f46e5;
 }
