@@ -23,7 +23,7 @@ export default function Navbar() {
             <Link className="links" to="/stocks">
               Comprar
             </Link>
-            <Link className="links" to="/stocks">
+            <Link className="links" to="/solicitudes">
               Solicitudes
             </Link>
           </div>

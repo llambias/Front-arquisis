@@ -1,10 +1,173 @@
-export const stocksData = [
+type Stock = {
+  symbol: string;
+  name: string;
+  price: number;
+  quantity: number;
+  // date: Date;
+};
+
+export const stocksData: Stock[] = [
+  {
+    symbol: "AAPL",
+    name: "Apple Inc.",
+    price: 182.52,
+    quantity: 100,
+    // date: new Date("2023-04-15"),
+  },
+  {
+    symbol: "MSFT",
+    name: "Microsoft Corporation",
+    price: 417.88,
+    quantity: 50,
+    // date: new Date("2023-05-22"),
+  },
+  {
+    symbol: "GOOGL",
+    name: "Alphabet Inc.",
+    price: 175.09,
+    quantity: 75,
+    // date: new Date("2023-06-10"),
+  },
+  {
+    symbol: "AMZN",
+    name: "Amazon.com, Inc.",
+    price: 182.41,
+    quantity: 60,
+    // date: new Date("2023-07-05"),
+  },
+  {
+    symbol: "META",
+    name: "Meta Platforms, Inc.",
+    price: 474.99,
+    quantity: 40,
+    // date: new Date("2023-08-18"),
+  },
+  {
+    symbol: "TSLA",
+    name: "Tesla, Inc.",
+    price: 175.34,
+    quantity: 90,
+    // date: new Date("2023-09-30"),
+  },
+  {
+    symbol: "NVDA",
+    name: "NVIDIA Corporation",
+    price: 950.02,
+    quantity: 30,
+    // date: new Date("2023-10-12"),
+  },
+  {
+    symbol: "BRK.B",
+    name: "Berkshire Hathaway Inc.",
+    price: 408.71,
+    quantity: 25,
+    // date: new Date("2023-11-25"),
+  },
+  {
+    symbol: "JPM",
+    name: "JPMorgan Chase & Co.",
+    price: 198.87,
+    quantity: 80,
+    // date: new Date("2023-12-08"),
+  },
+  {
+    symbol: "V",
+    name: "Visa Inc.",
+    price: 275.96,
+    quantity: 70,
+    // date: new Date("2024-01-20"),
+  },
+  {
+    symbol: "WMT",
+    name: "Walmart Inc.",
+    price: 59.98,
+    quantity: 120,
+    // date: new Date("2023-04-05"),
+  },
+  {
+    symbol: "JNJ",
+    name: "Johnson & Johnson",
+    price: 152.5,
+    quantity: 45,
+    // date: new Date("2023-05-12"),
+  },
+  {
+    symbol: "PG",
+    name: "Procter & Gamble Co.",
+    price: 162.25,
+    quantity: 65,
+    // date: new Date("2023-06-22"),
+  },
+  {
+    symbol: "UNH",
+    name: "UnitedHealth Group Inc.",
+    price: 490.1,
+    quantity: 35,
+    // date: new Date("2023-07-15"),
+  },
+  {
+    symbol: "HD",
+    name: "Home Depot Inc.",
+    price: 345.75,
+    quantity: 55,
+    // date: new Date("2023-08-08"),
+  },
+  {
+    symbol: "BAC",
+    name: "Bank of America Corp.",
+    price: 38.45,
+    quantity: 110,
+    // date: new Date("2023-09-19"),
+  },
+  {
+    symbol: "PFE",
+    name: "Pfizer Inc.",
+    price: 27.2,
+    quantity: 95,
+    // date: new Date("2023-10-30"),
+  },
+  {
+    symbol: "CSCO",
+    name: "Cisco Systems Inc.",
+    price: 49.87,
+    quantity: 85,
+    // date: new Date("2023-11-14"),
+  },
+  {
+    symbol: "KO",
+    name: "Coca-Cola Co.",
+    price: 60.15,
+    quantity: 130,
+    // date: new Date("2023-12-21"),
+  },
+  {
+    symbol: "DIS",
+    name: "Walt Disney Co.",
+    price: 111.95,
+    quantity: 75,
+    // date: new Date("2024-01-10"),
+  },
+];
+
+type Solicitud = {
+  symbol: string;
+  name: string;
+  price: number;
+  quantity: number;
+  operation: "BUY" | "SELL";
+  date: Date;
+  status: "ACCEPTED" | "REJECTED" | "OK" | "error";
+};
+
+export const solicitudesData: Solicitud[] = [
   {
     symbol: "AAPL",
     name: "Apple Inc.",
     price: 182.52,
     quantity: 100,
     date: new Date("2023-04-15"),
+    operation: "BUY",
+    status: "ACCEPTED",
   },
   {
     symbol: "MSFT",
@@ -12,6 +175,8 @@ export const stocksData = [
     price: 417.88,
     quantity: 50,
     date: new Date("2023-05-22"),
+    operation: "SELL",
+    status: "REJECTED",
   },
   {
     symbol: "GOOGL",
@@ -19,6 +184,8 @@ export const stocksData = [
     price: 175.09,
     quantity: 75,
     date: new Date("2023-06-10"),
+    operation: "BUY",
+    status: "OK",
   },
   {
     symbol: "AMZN",
@@ -26,117 +193,7 @@ export const stocksData = [
     price: 182.41,
     quantity: 60,
     date: new Date("2023-07-05"),
-  },
-  {
-    symbol: "META",
-    name: "Meta Platforms, Inc.",
-    price: 474.99,
-    quantity: 40,
-    date: new Date("2023-08-18"),
-  },
-  {
-    symbol: "TSLA",
-    name: "Tesla, Inc.",
-    price: 175.34,
-    quantity: 90,
-    date: new Date("2023-09-30"),
-  },
-  {
-    symbol: "NVDA",
-    name: "NVIDIA Corporation",
-    price: 950.02,
-    quantity: 30,
-    date: new Date("2023-10-12"),
-  },
-  {
-    symbol: "BRK.B",
-    name: "Berkshire Hathaway Inc.",
-    price: 408.71,
-    quantity: 25,
-    date: new Date("2023-11-25"),
-  },
-  {
-    symbol: "JPM",
-    name: "JPMorgan Chase & Co.",
-    price: 198.87,
-    quantity: 80,
-    date: new Date("2023-12-08"),
-  },
-  {
-    symbol: "V",
-    name: "Visa Inc.",
-    price: 275.96,
-    quantity: 70,
-    date: new Date("2024-01-20"),
-  },
-  {
-    symbol: "WMT",
-    name: "Walmart Inc.",
-    price: 59.98,
-    quantity: 120,
-    date: new Date("2023-04-05"),
-  },
-  {
-    symbol: "JNJ",
-    name: "Johnson & Johnson",
-    price: 152.5,
-    quantity: 45,
-    date: new Date("2023-05-12"),
-  },
-  {
-    symbol: "PG",
-    name: "Procter & Gamble Co.",
-    price: 162.25,
-    quantity: 65,
-    date: new Date("2023-06-22"),
-  },
-  {
-    symbol: "UNH",
-    name: "UnitedHealth Group Inc.",
-    price: 490.1,
-    quantity: 35,
-    date: new Date("2023-07-15"),
-  },
-  {
-    symbol: "HD",
-    name: "Home Depot Inc.",
-    price: 345.75,
-    quantity: 55,
-    date: new Date("2023-08-08"),
-  },
-  {
-    symbol: "BAC",
-    name: "Bank of America Corp.",
-    price: 38.45,
-    quantity: 110,
-    date: new Date("2023-09-19"),
-  },
-  {
-    symbol: "PFE",
-    name: "Pfizer Inc.",
-    price: 27.2,
-    quantity: 95,
-    date: new Date("2023-10-30"),
-  },
-  {
-    symbol: "CSCO",
-    name: "Cisco Systems Inc.",
-    price: 49.87,
-    quantity: 85,
-    date: new Date("2023-11-14"),
-  },
-  {
-    symbol: "KO",
-    name: "Coca-Cola Co.",
-    price: 60.15,
-    quantity: 130,
-    date: new Date("2023-12-21"),
-  },
-  {
-    symbol: "DIS",
-    name: "Walt Disney Co.",
-    price: 111.95,
-    quantity: 75,
-    date: new Date("2024-01-10"),
+    operation: "SELL",
+    status: "error",
   },
 ];

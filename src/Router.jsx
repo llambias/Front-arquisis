@@ -3,6 +3,7 @@ import Inicial from "./pages/Inicial";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import LandingPage from "./pages/Landing";
+import Solicitudes from "./pages/Solicitudes";
 import { useAuth } from "./context/AuthContext";
 
 const PrivateWrapper = () => {
@@ -17,6 +18,7 @@ function Router() {
       <Route path={"/login"} element={<Login />} />
       <Route path={"/register"} element={<Register />} />
       <Route path={"/stocks"} element={<Inicial />} />
+      <Route path={"/solicitudes"} element={<Solicitudes />} />
       <Route element={<PrivateWrapper />}>
         {/* Rutas privadas van aquí */}
         {/* <Route path={"/stocks"} element={<Inicial />} /> */}
