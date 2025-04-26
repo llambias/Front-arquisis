@@ -1,20 +1,30 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Inicial from './pages/Inicial';
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import Inicial from "./pages/Inicial";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import LandingPage from "./pages/Landing";
+import Solicitudes from "./pages/Solicitudes";
+import { useAuth } from "./context/AuthContext";
 
-import Login from './pages/Login';
-import Signin from './pages/Signin';
+const PrivateWrapper = () => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+};
 
-
-function Router(){
+function Router() {
   return (
-      <Routes>
-        <Route path={"/"} element={<Inicial/>}/>
-        <Route path={"/Login"} element={<Login/>}/>
-        <Route path={"/Signin"} element={<Signin/>}/>
-       
-        
-      </Routes>
-  )
+    <Routes>
+      <Route path={"/"} element={<LandingPage />} />
+      <Route path={"/login"} element={<Login />} />
+      <Route path={"/register"} element={<Register />} />
+      <Route path={"/stocks"} element={<Inicial />} />
+      <Route path={"/solicitudes"} element={<Solicitudes />} />
+      <Route element={<PrivateWrapper />}>
+        {/* Rutas privadas van aquí */}
+        {/* <Route path={"/stocks"} element={<Inicial />} /> */}
+      </Route>
+    </Routes>
+  );
 }
 
 export default Router;

@@ -5,6 +5,8 @@ import { Unvisible} from '@rsuite/icons';
 import { Link, useNavigate } from "react-router-dom";
 import './Login.css';
 import axios from "axios";
+import FormInput from "../components/forms/FormInput";
+import FormSubmitButton from "../components/forms/FormSubmitButton";
 
 import  URL_BACK   from "../../config";
 //const navigate = useNavigate();
@@ -46,34 +48,32 @@ function LoginBox() {
     <>
     <div className="container">
       <div className="login_card">
-        <form onSubmit={handleSubmit}>
-        <div className="top_card">
-            <div className='ingresas_datos'>
-                <h4>Ingrese sus datos</h4>
-                
-
-            </div>
-            
-            <label className='label_nombre_usuario'>
-            Email de Usuario:
-                <input type='text' className='input_' 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}></input>
-            </label>
-            <label className='label_contrasena'>
-            Contraseña:
-                <IconButton icon={<Unvisible />} 
-                appearance="primary" className="eye_icon" onClick={togglePasswordVisibility} />
-                <input type={passwordVisibility} className='input_' 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}></input>
-            </label>
+        <div className="card_header">
+          <h1>Bienvenido de nuevo</h1>
+          <h4>Ingresa tus credenciales para acceder a tu cuenta</h4>
         </div>
-        <div className="bottom_card">
-          <button className="button" onClick={e=>handleSubmit(e)} >Iniciar sesión</button>
-          <Link className="clean" to="/Register">¿No tienes cuenta? Regístrate</Link>
-        </div>  
-        </form>      
+        <form onSubmit={handleSubmit}>
+          <label>Correo</label>
+          <FormInput
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+          />
+          <label>Contraseña</label>
+          <FormInput
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+          />
+          <div className="button-container">
+            <FormSubmitButton>Iniciar sesión</FormSubmitButton>
+          </div>
+        </form>
+        <div className="register_link">
+          <p>¿No tienes una cuenta? <Link to="/register">Regístrate Aquí</Link></p>
+        </div>
       </div>
     </div>
       

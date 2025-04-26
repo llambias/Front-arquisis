@@ -1,0 +1,40 @@
+.right_side{
+  width: 550px;
+  display: flex;
+  justify-content: center;
+}
+.left_side{
+    width: 1000px;
+    justify-content: center;
+}
+.button-container{
+  
+  justify-content: space-between;
+  align-items: center; 
+  margin: 20px;
+}
+button{
+  background: black;
+  color: white;
+ border: none;
+ border-radius: 0.5em;
+ font-size: 15px;
+ font-weight: bold;
+ cursor: pointer;
+}
+.container {
+  display: flex; /* Use flexbox layout */
+  width:100%;
+  background-color: inherit;
+  top: 100%;
+  left: 100%;
+}
+.sidebar {
+  flex: 0 0 25%; /* Set the initial and minimum width of the sidebar to 25% */
+  
+}
+.content {
+  flex: 1; /* Fill the remaining space with the main content */
+ 
+}
+/* className="flex justify-between items-center" */

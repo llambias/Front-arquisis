@@ -1,38 +1,33 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .container {
     display: flex;
     flex-direction: column;
-    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding-top: 64px;
+    min-height: calc(80vh);
+}
+
+.register_card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 30rem;
+}
+
+.card_header{
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.login_card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 30rem;
-}
-
-.card_header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.login_card h1 {
+.register_card h1{
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
 }
 
-.login_card h4 {
+.register_card h4{
     color: #666;
     font-size: 1rem;
     font-weight: 400;
@@ -40,30 +35,31 @@
     margin-bottom: 1rem;
 }
 
-.login_card form {
+.register_card form{
     display: flex;
     flex-direction: column;
     align-items: left;
     gap: 0.5rem;
 }
 
-.login_card label {
+.register_card label{
     font-weight: 500;
     margin-top: 0.3rem;
 }
 
-.login_card .button-container {
+.register_card .button-container{
     padding: 0;
     margin: 0;
     margin-top: 1rem;
 }
 
-.register_link {
+.login_link{
     margin-top: 1rem;
     text-align: center;
-}
+  }
 
-.register_link a {
+
+.login_link a{
     color: #666;
     text-decoration: none;
-}
+  }
