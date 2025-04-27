@@ -2,8 +2,9 @@ import React from "react";
 import { useState, ReactNode, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { loginRequest } from "../requests/auth";
+import { loginRequest, logoutRequest, registerRequest } from "../requests/auth";
 import AuthContext, { UserType } from "./AuthContext";
+import { validateTokenRequest } from "../requests/auth";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -13,8 +14,17 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   // Initialize token from localStorage or null if not present
   const initialToken = localStorage.getItem("access_token");
 
-  // Function to synchronously validate access_token (for now)
-  const validateToken = (token: string) => {
+  const validateToken = async (token: string) => {
+    try {
+      const response = await validateTokenRequest(token);
+      return response.status.code === 200;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return false;
+    }
+  };
+
+  const validateTokenByDate = (token: string) => {
     try {
       const decodedToken: { exp: number } = jwtDecode(token);
       const expirationTimeInSeconds = decodedToken.exp;
@@ -28,7 +38,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Synchronously set initial authentication state based on token validity
   const initialIsAuthenticated = initialToken
-    ? validateToken(initialToken)
+    ? validateTokenByDate(initialToken)
     : false;
 
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -41,36 +51,45 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   });
 
   useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
-    const user = localStorage.getItem("user");
+    const validateUser = async () => {
+      const access_token = localStorage.getItem("access_token");
+      const user = localStorage.getItem("user");
 
-    if (access_token && user) {
-      const isTokenValid = validateToken(access_token);
-
-      if (isTokenValid) {
-        setAccessToken(access_token);
-        setUser(JSON.parse(user));
-        setIsAuthenticated(true);
-      } else {
-        // Token expirado, limpiar localStorage y estado
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("user");
-        setAccessToken(null);
-        setUser(null);
-        setIsAuthenticated(false);
+      if (access_token && user) {
+        const isTokenValid = await validateToken(access_token);
+        if (isTokenValid) {
+          setAccessToken(access_token);
+          setUser(JSON.parse(user));
+          setIsAuthenticated(true);
+        } else {
+          // Token expirado, limpiar localStorage y estado
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("user");
+          setAccessToken(null);
+          setUser(null);
+          setIsAuthenticated(false);
+        }
       }
-    }
+    };
+    validateUser();
   }, []);
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await loginRequest(username, password);
-      if (response.data.access) {
-        localStorage.setItem("access_token", response.data.access);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+      const { data, headers } = await loginRequest(username, password);
+      const access_token = headers.authorization;
+      const user = {
+        id: data.data.id,
+        email: data.data.email,
+        first_name: data.data.first_name,
+        last_name: data.data.last_name,
+      };
+      if (access_token) {
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("user", JSON.stringify(user));
 
-        setAccessToken(response.data.access);
-        setUser(response.data.user);
+        setAccessToken(access_token);
+        setUser(user);
         setIsAuthenticated(true);
         return true;
       }
@@ -88,12 +107,43 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return false;
   };
 
-  const logout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
-    setAccessToken(null);
-    setUser(null);
-    setIsAuthenticated(false);
+  const logout = async () => {
+    try {
+      await logoutRequest();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+      setAccessToken(null);
+      setUser(null);
+      setIsAuthenticated(false);
+    }
+  };
+
+  const register = async (
+    email: string,
+    password: string,
+    password_confirmation: string,
+    first_name: string,
+    last_name: string
+  ) => {
+    try {
+      const { data } = await registerRequest(
+        email,
+        password,
+        password_confirmation,
+        first_name,
+        last_name
+      );
+      if (data.status.code === 200) {
+        return true;
+      }
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+    return false;
   };
 
   const isLoggedIn = !!access_token;
@@ -107,6 +157,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setToken: setAccessToken,
         login,
         logout,
+        register,
       }}
     >
       {children}

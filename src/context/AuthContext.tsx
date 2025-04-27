@@ -1,11 +1,11 @@
 import { createContext, useContext } from "react";
 
 export type UserType = {
+  id: number;
   email: string;
   first_name: string;
   last_name: string;
-  balance: number; // monto de dinero disponible
-  role: string;
+  // balance: number; // monto de dinero disponible
 };
 
 type AuthContextType = {
@@ -16,6 +16,13 @@ type AuthContextType = {
   setToken: (access_token: string | null) => void;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
+  register: (
+    email: string,
+    password: string,
+    password_confirmation: string,
+    first_name: string,
+    last_name: string
+  ) => Promise<boolean>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

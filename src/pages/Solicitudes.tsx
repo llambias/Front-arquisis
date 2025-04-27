@@ -7,17 +7,17 @@ const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState(solicitudesData);
 
   useEffect(() => {
-    const fetchSolicitudes = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/solicitudes");
-        const data = await response.json();
-        setSolicitudes(data);
-      } catch (error) {
-        console.error("Error fetching solicitudes:", error);
-      }
-    };
-    fetchSolicitudes();
-  }, []);
+    // const fetchSolicitudes = async () => {
+    //   try {
+    //     const response = await fetch("http://localhost:3000/solicitudes");
+    //     const data = await response.json();
+    //     setSolicitudes(data);
+    //   } catch (error) {
+    //     console.error("Error fetching solicitudes:", error);
+    //   }
+    // };
+    // fetchSolicitudes();
+  }, []); 
 
   return (
     <section className="stocks-container">

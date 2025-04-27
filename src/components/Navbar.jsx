@@ -1,15 +1,13 @@
 import React from "react";
 import "./Navbar.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
   };
 
   return (
@@ -18,7 +16,7 @@ export default function Navbar() {
         <div className="nav-left">
           <p className="nav-logo">Stock Market</p>
         </div>
-        {true && (
+        {isAuthenticated && (
           <div className="nav-right">
             <Link className="links" to="/stocks">
               Comprar
@@ -29,7 +27,7 @@ export default function Navbar() {
           </div>
         )}
         <div className="nav-right">
-          {true ? (
+          {isAuthenticated ? (
             <a className="links" onClick={handleLogout}>
               Cerrar Sesión
             </a>
