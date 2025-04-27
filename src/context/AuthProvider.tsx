@@ -14,9 +14,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   // Initialize token from localStorage or null if not present
   const initialToken = localStorage.getItem("access_token");
 
-  const validateToken = async (token: string) => {
+  const validateToken = async () => {
     try {
-      const response = await validateTokenRequest(token);
+      const response = await validateTokenRequest();
       return response.status.code === 200;
     } catch (error) {
       console.error("Error decoding token:", error);
@@ -56,7 +56,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       const user = localStorage.getItem("user");
 
       if (access_token && user) {
-        const isTokenValid = await validateToken(access_token);
+        const isTokenValid = await validateToken();
         if (isTokenValid) {
           setAccessToken(access_token);
           setUser(JSON.parse(user));

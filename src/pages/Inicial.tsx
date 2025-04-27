@@ -1,7 +1,7 @@
 import "./Inicial.css";
 import React, { useState } from "react";
 import { stocksData } from "../constants/constants";
-
+import moneyIcon from "../assets/money.svg";
 const items = Array.from({ length: 250 }, (_, i) => `Elemento ${i + 1}`); // Lista de prueba
 const ITEMS_PER_PAGE = 7;
 
@@ -69,8 +69,31 @@ const Inicial = () => {
 
   return (
     <section className="stocks-container">
-      <div className="header">
-        <h1>Stocks Disponibles</h1>
+      <div
+        className="header"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <img
+            src={moneyIcon} // Toggle icon
+            alt="moneyicon"
+            style={{ width: "2rem", height: "2rem" }}
+          />
+          <span
+            style={{
+              fontFamily: "Courier New",
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+            }}
+          >
+            Dinero disponible: $1000
+          </span>
+        </div>
       </div>
       <div className="pagination">
         <input

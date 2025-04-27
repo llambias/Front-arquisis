@@ -1,5 +1,4 @@
-import axios from "axios";
-import axiosInstance from "./axios";
+import { axiosInstance, authInstance } from "./axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,7 +9,7 @@ export const registerRequest = async (
   first_name: string,
   last_name: string
 ) => {
-  const response = await axiosInstance.post("/api/v1/register", {
+  const response = await authInstance.post("/api/v1/register", {
     user: {
       email: email,
       password: password,
@@ -26,7 +25,7 @@ export const registerRequest = async (
 };
 
 export const loginRequest = async (email: string, password: string) => {
-  const response = await axiosInstance.post("/api/v1/login", {
+  const response = await authInstance.post("/api/v1/login", {
     user: {
       email: email,
       password: password,
@@ -39,19 +38,11 @@ export const loginRequest = async (email: string, password: string) => {
 };
 
 export const logoutRequest = async () => {
-  const response = await axiosInstance.delete("/api/v1/logout", {});
+  const response = await authInstance.delete("/api/v1/logout", {});
   return response.data;
 };
 
-export const validateTokenRequest = async (token: string) => {
-  const response = await axios.post(
-    `${API_URL}/api/v1/validate_token`,
-    {}, // Empty body since we only need the token in headers
-    {
-      headers: {
-        Authorization: token,
-      },
-    }
-  );
+export const validateTokenRequest = async () => {
+  const response = await authInstance.post("/api/v1/validate_token");
   return response.data;
 };
