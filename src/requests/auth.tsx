@@ -1,7 +1,6 @@
-import axios from "axios";
+import { axiosInstance, authInstance } from "./axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/";
-const API_URL_AUTH = API_URL + "auth/v1/";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const registerRequest = async (
   email: string,
@@ -10,35 +9,47 @@ export const registerRequest = async (
   first_name: string,
   last_name: string
 ) => {
-  const response = await axios.post(API_URL_AUTH + "register", {
+  const response = await authInstance.post("/api/v1/register", {
     user: {
       email: email,
       password: password,
       password_confirmation: password_confirmation,
       first_name: first_name,
       last_name: last_name,
-      role: "user",
     },
   });
-  return response.data;
+  return {
+    data: response.data,
+    headers: response.headers,
+  };
 };
 
 export const loginRequest = async (email: string, password: string) => {
-  const response = await axios.post(API_URL_AUTH + "login", {
+  const response = await authInstance.post("/api/v1/login", {
     user: {
       email: email,
       password: password,
     },
   });
-  return response.data;
+  return {
+    data: response.data,
+    headers: response.headers,
+  };
 };
 
 export const logoutRequest = async () => {
-  const response = await axios.post(API_URL_AUTH + "logout");
+  const response = await authInstance.delete("/api/v1/logout", {});
   return response.data;
 };
 
 export const validateTokenRequest = async () => {
-  const response = await axios.post(API_URL_AUTH + "validate-token");
+  const response = await authInstance.post("/api/v1/validate_token");
+  return response.data;
+};
+
+export const updateFundsRequest = async (funds: number) => {
+  const response = await authInstance.patch("/api/v1/update_funds", {
+    funds: funds,
+  });
   return response.data;
 };

@@ -1,7 +1,8 @@
 import "./Inicial.css";
 import React, { useState } from "react";
 import { stocksData } from "../constants/constants";
-
+import moneyIcon from "../assets/money.svg";
+import { useAuth } from "../context/AuthContext";
 const items = Array.from({ length: 250 }, (_, i) => `Elemento ${i + 1}`); // Lista de prueba
 const ITEMS_PER_PAGE = 7;
 
@@ -10,11 +11,16 @@ type Stock = {
   name: string;
   price: number;
   quantity: number;
+  amount?: number;
 };
 
 const Inicial = () => {
+  const { user } = useAuth();
+  const userFunds = user?.funds || 0;
   const [currentPage, setCurrentPage] = useState(1);
-  const [stocks, setStocks] = useState<Stock[]>(stocksData);
+  const [stocks, setStocks] = useState<Stock[]>(
+    stocksData.map((stock) => ({ ...stock, amount: 0 }))
+  );
   const [sortField, setSortField] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
   const [filters, setFilters] = useState({
@@ -67,10 +73,49 @@ const Inicial = () => {
     console.log(filters);
   };
 
+  const handleBuy = (symbol: string, amount: number) => {
+    console.log("Comprar", symbol, amount);
+  };
+
+  const handleAmountChange = (symbol: string, amount: number) => {
+    setStocks((prevStocks) =>
+      prevStocks.map((stock) =>
+        stock.symbol === symbol ? { ...stock, amount: amount } : stock
+      )
+    );
+  };
+
+  const calculateTotal = (price: number, amount: number) => {
+    return (price * (amount || 0)).toFixed(2);
+  };
+
   return (
     <section className="stocks-container">
-      <div className="header">
-        <h1>Stocks Disponibles</h1>
+      <div
+        className="header"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <img
+            src={moneyIcon} // Toggle icon
+            alt="moneyicon"
+            style={{ width: "2rem", height: "2rem" }}
+          />
+          <span
+            style={{
+              fontFamily: "Courier New",
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+            }}
+          >
+            Dinero disponible: ${userFunds}
+          </span>
+        </div>
       </div>
       <div className="pagination">
         <input
@@ -125,6 +170,8 @@ const Inicial = () => {
               <th onClick={() => handleSort("quantity")} className="sortable">
                 Quantity {getSortIndicator("quantity")}
               </th>
+              <th>Amount</th>
+              <th>Total ($)</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -135,6 +182,33 @@ const Inicial = () => {
                 <td>{stock.name}</td>
                 <td className="priceCell">${stock.price.toFixed(2)}</td>
                 <td>{stock.quantity}</td>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    max={stock.quantity}
+                    value={stock.amount || 0}
+                    onChange={(e) =>
+                      handleAmountChange(
+                        stock.symbol,
+                        parseInt(e.target.value) || 0
+                      )
+                    }
+                    className="amount-input"
+                  />
+                </td>
+                <td
+                  className="priceCell"
+                  style={{
+                    color:
+                      Number(calculateTotal(stock.price, stock.amount || 0)) >
+                      userFunds
+                        ? "red"
+                        : "black",
+                  }}
+                >
+                  ${calculateTotal(stock.price, stock.amount || 0)}
+                </td>
                 <td>
                   <button className="buyButton">Buy</button>
                 </td>

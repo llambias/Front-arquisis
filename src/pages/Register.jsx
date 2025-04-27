@@ -3,10 +3,11 @@ import { useState } from "react";
 import FormInput from "../components/forms/FormInput";
 import FormSubmitButton from "../components/forms/FormSubmitButton";
 import { Link, useNavigate } from "react-router-dom";
-import { registerRequest } from "../requests/auth";
+import { useAuth } from "../context/AuthContext";
 import "./Register.css";
 
 function Register() {
+  const { register, login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,7 +15,8 @@ function Register() {
     firstName: "",
     lastName: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,13 +24,23 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerRequest(
-      formData.email,
-      formData.password,
-      formData.firstName,
-      formData.lastName
-    );
-    navigate("/login");
+    try {
+      const success = await register(
+        formData.email,
+        formData.password,
+        formData.passwordConfirmation,
+        formData.firstName,
+        formData.lastName
+      );
+      if (success) {
+        const loginSuccess = await login(formData.email, formData.password);
+        if (loginSuccess) {
+          navigate("/stocks");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
