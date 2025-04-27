@@ -10,11 +10,14 @@ type Stock = {
   name: string;
   price: number;
   quantity: number;
+  amount?: number;
 };
 
 const Inicial = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [stocks, setStocks] = useState<Stock[]>(stocksData);
+  const [stocks, setStocks] = useState<Stock[]>(
+    stocksData.map((stock) => ({ ...stock, amount: 0 }))
+  );
   const [sortField, setSortField] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
   const [filters, setFilters] = useState({
@@ -65,6 +68,22 @@ const Inicial = () => {
   const handleFilter = () => {
     console.log("Filtrar");
     console.log(filters);
+  };
+
+  const handleBuy = (symbol: string, amount: number) => {
+    console.log("Comprar", symbol, amount);
+  };
+
+  const handleAmountChange = (symbol: string, amount: number) => {
+    setStocks((prevStocks) =>
+      prevStocks.map((stock) =>
+        stock.symbol === symbol ? { ...stock, amount: amount } : stock
+      )
+    );
+  };
+
+  const calculateTotal = (price: number, amount: number) => {
+    return (price * (amount || 0)).toFixed(2);
   };
 
   return (
@@ -148,6 +167,8 @@ const Inicial = () => {
               <th onClick={() => handleSort("quantity")} className="sortable">
                 Quantity {getSortIndicator("quantity")}
               </th>
+              <th>Amount</th>
+              <th>Total ($)</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -158,6 +179,24 @@ const Inicial = () => {
                 <td>{stock.name}</td>
                 <td className="priceCell">${stock.price.toFixed(2)}</td>
                 <td>{stock.quantity}</td>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    max={stock.quantity}
+                    value={stock.amount || 0}
+                    onChange={(e) =>
+                      handleAmountChange(
+                        stock.symbol,
+                        parseInt(e.target.value) || 0
+                      )
+                    }
+                    className="amount-input"
+                  />
+                </td>
+                <td className="priceCell">
+                  ${calculateTotal(stock.price, stock.amount || 0)}
+                </td>
                 <td>
                   <button className="buyButton">Buy</button>
                 </td>
