@@ -163,21 +163,21 @@ const Inicial = () => {
           type="number"
           placeholder="Precio máximo"
           className="filter-input"
-          value={filters.price}
+          value={filters.price ?? ""}
           onChange={(e) => setFilters({ ...filters, price: e.target.value })}
         />
         <input
           type="number"
           placeholder="Cantidad"
           className="filter-input"
-          value={filters.quantity}
+          value={filters.quantity ?? ""}
           onChange={(e) => setFilters({ ...filters, quantity: e.target.value })}
         />
         <input
           type="datetime-local"
           placeholder="Fecha"
           className="filter-input"
-          value={filters.date ? filters.date : ""}
+          value={filters.date ?? ""}
           onChange={(e) => setFilters({ ...filters, date: e.target.value })}
         />
         <button className="paginationButton" onClick={handleFilter}>
