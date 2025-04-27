@@ -72,7 +72,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     };
     validateUser();
-  }, []);
+  }, [access_token, user]);
 
   const login = async (username: string, password: string) => {
     try {
@@ -83,6 +83,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         email: data.data.email,
         first_name: data.data.first_name,
         last_name: data.data.last_name,
+        funds: data.data.funds,
       };
       if (access_token) {
         localStorage.setItem("access_token", access_token);
@@ -126,7 +127,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     password: string,
     password_confirmation: string,
     first_name: string,
-    last_name: string
+    last_name: string,
   ) => {
     try {
       const { data } = await registerRequest(

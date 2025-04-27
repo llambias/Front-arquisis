@@ -5,6 +5,7 @@ export type UserType = {
   email: string;
   first_name: string;
   last_name: string;
+  funds: number;
   // balance: number; // monto de dinero disponible
 };
 

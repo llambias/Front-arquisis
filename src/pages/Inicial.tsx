@@ -2,10 +2,9 @@ import "./Inicial.css";
 import React, { useState } from "react";
 import { stocksData } from "../constants/constants";
 import moneyIcon from "../assets/money.svg";
+import { useAuth } from "../context/AuthContext";
 const items = Array.from({ length: 250 }, (_, i) => `Elemento ${i + 1}`); // Lista de prueba
 const ITEMS_PER_PAGE = 7;
-
-const wallet = 1000;
 
 type Stock = {
   symbol: string;
@@ -16,6 +15,8 @@ type Stock = {
 };
 
 const Inicial = () => {
+  const { user } = useAuth();
+  const userFunds = user?.funds || 0;
   const [currentPage, setCurrentPage] = useState(1);
   const [stocks, setStocks] = useState<Stock[]>(
     stocksData.map((stock) => ({ ...stock, amount: 0 }))
@@ -112,7 +113,7 @@ const Inicial = () => {
               fontSize: "1.5rem",
             }}
           >
-            Dinero disponible: ${wallet}
+            Dinero disponible: ${userFunds}
           </span>
         </div>
       </div>
@@ -201,7 +202,7 @@ const Inicial = () => {
                   style={{
                     color:
                       Number(calculateTotal(stock.price, stock.amount || 0)) >
-                      wallet
+                      userFunds
                         ? "red"
                         : "black",
                   }}
