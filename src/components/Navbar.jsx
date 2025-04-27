@@ -24,6 +24,9 @@ export default function Navbar() {
             <Link className="links" to="/solicitudes">
               Solicitudes
             </Link>
+            <Link className="links" to="/billetera">
+              Billetera
+            </Link>
           </div>
         )}
         <div className="nav-right">

@@ -14,6 +14,7 @@ type AuthContextType = {
   isLoggedIn: boolean;
   isAuthenticated: boolean;
   user: UserType | null;
+  setUser: (user: UserType | null) => void;
   setToken: (access_token: string | null) => void;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;

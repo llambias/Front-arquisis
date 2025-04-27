@@ -155,6 +155,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         isLoggedIn,
         isAuthenticated,
         user,
+        setUser,
         setToken: setAccessToken,
         login,
         logout,

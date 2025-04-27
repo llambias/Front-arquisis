@@ -46,3 +46,10 @@ export const validateTokenRequest = async () => {
   const response = await authInstance.post("/api/v1/validate_token");
   return response.data;
 };
+
+export const updateFundsRequest = async (funds: number) => {
+  const response = await authInstance.patch("/api/v1/update_funds", {
+    funds: funds,
+  });
+  return response.data;
+};

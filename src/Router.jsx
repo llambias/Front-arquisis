@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import LandingPage from "./pages/Landing";
 import Solicitudes from "./pages/Solicitudes";
+import Billetera from "./pages/Billetera";
 import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 
@@ -34,6 +35,7 @@ function Router() {
         {/* Rutas privadas van aquí */}
         <Route path={"/stocks"} element={<Inicial />} />
         <Route path={"/solicitudes"} element={<Solicitudes />} />
+        <Route path={"/billetera"} element={<Billetera />} />
       </Route>
     </Routes>
   );
