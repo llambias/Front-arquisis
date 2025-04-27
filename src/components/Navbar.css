@@ -1,6 +1,6 @@
 .main-nav-div {
     position: sticky;
-    background-color: #7c8094;
+    background-color: #ffffff;
     top: 0;
     right: 0;
     left: 0;
@@ -9,6 +9,7 @@
     padding-left: 100px;
     padding-right: 100px;
     z-index: 100;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .navbar {
@@ -43,12 +44,27 @@ a {
     font-size: 16px;
     color: #3e4144;
     text-decoration: none;
+    /* border: 1px solid #e0e0e0; */
+}
+
+.logout-button {
+    color: #ffffff; /* Cambia el color de la letra de los links */
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    padding: 10px 15px;
+    background-color: #000000;
+}
+
+.logout-button:hover {
+    background-color: #373737;
 }
 
 .links {
     color: #000000; /* Cambia el color de la letra de los links */
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.9rem;
     border-radius: 5px;
     padding: 10px 15px;

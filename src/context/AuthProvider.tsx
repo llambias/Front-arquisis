@@ -72,7 +72,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     };
     validateUser();
-  }, [access_token, user]);
+  }, [user?.funds]);
 
   const login = async (username: string, password: string) => {
     try {

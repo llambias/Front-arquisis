@@ -28,7 +28,7 @@ export default function Navbar() {
         )}
         <div className="nav-right">
           {isAuthenticated ? (
-            <a className="links" onClick={handleLogout}>
+            <a className="logout-button" onClick={handleLogout}>
               Cerrar Sesión
             </a>
           ) : (
