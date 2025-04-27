@@ -5,6 +5,8 @@ import moneyIcon from "../assets/money.svg";
 const items = Array.from({ length: 250 }, (_, i) => `Elemento ${i + 1}`); // Lista de prueba
 const ITEMS_PER_PAGE = 7;
 
+const wallet = 1000;
+
 type Stock = {
   symbol: string;
   name: string;
@@ -110,7 +112,7 @@ const Inicial = () => {
               fontSize: "1.5rem",
             }}
           >
-            Dinero disponible: $1000
+            Dinero disponible: ${wallet}
           </span>
         </div>
       </div>
@@ -194,7 +196,16 @@ const Inicial = () => {
                     className="amount-input"
                   />
                 </td>
-                <td className="priceCell">
+                <td
+                  className="priceCell"
+                  style={{
+                    color:
+                      Number(calculateTotal(stock.price, stock.amount || 0)) >
+                      wallet
+                        ? "red"
+                        : "black",
+                  }}
+                >
                   ${calculateTotal(stock.price, stock.amount || 0)}
                 </td>
                 <td>
