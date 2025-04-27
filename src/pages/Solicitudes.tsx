@@ -2,23 +2,35 @@ import "./Solicitudes.css";
 import React from "react";
 import { useState, useEffect } from "react";
 import { solicitudesData } from "../constants/constants";
+import { getUserTransactionsRequest } from "../requests/stocks";
+import { useAuth } from "../context/AuthContext";
+
+type TransactionType = {
+  request_id: string;
+  user_id: number;
+  symbol: string;
+  group_id: string;
+  operation: string;
+  quantity: number;
+  status: string;
+  timestamp: string;
+};
 
 const Solicitudes = () => {
-  const [solicitudes, setSolicitudes] = useState(solicitudesData);
+  const [solicitudes, setSolicitudes] = useState<TransactionType[]>([]);
+  const { user } = useAuth();
 
   useEffect(() => {
-    // const fetchSolicitudes = async () => {
-    //   try {
-    //     const response = await fetch("http://localhost:3000/solicitudes");
-    //     const data = await response.json();
-    //     setSolicitudes(data);
-    //   } catch (error) {
-    //     console.error("Error fetching solicitudes:", error);
-    //   }
-    // };
-    // fetchSolicitudes();
-  }, []); 
-
+    const getTransactions = async () => {
+      const user_id = user?.id;
+      if (!user_id) {
+        throw new Error("User ID is undefined");
+      }
+      const transactions = await getUserTransactionsRequest(user_id);
+      setSolicitudes(transactions);
+    };
+    getTransactions();
+  }, []);
   return (
     <section className="stocks-container">
       <div className="solicitudes-header">
@@ -29,11 +41,9 @@ const Solicitudes = () => {
           <thead>
             <tr>
               <th>Symbol</th>
-              <th>Name</th>
-              <th>Price ($)</th>
-              <th>Quantity</th>
               <th>Operation</th>
-              <th>Date</th>
+              <th>Quantity</th>
+              <th>Timestamp</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -41,11 +51,9 @@ const Solicitudes = () => {
             {solicitudes.map((solicitud) => (
               <tr key={solicitud.symbol}>
                 <td className="symbolCell">{solicitud.symbol}</td>
-                <td>{solicitud.name}</td>
-                <td className="priceCell">${solicitud.price.toFixed(2)}</td>
-                <td>{solicitud.quantity}</td>
                 <td>{solicitud.operation}</td>
-                <td>{solicitud.date.toDateString()}</td>
+                <td>{solicitud.quantity}</td>
+                <td>{solicitud.timestamp}</td>
                 <td
                   style={{
                     color:

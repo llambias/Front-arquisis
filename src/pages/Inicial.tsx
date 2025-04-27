@@ -1,10 +1,8 @@
 import "./Inicial.css";
 import React, { useState, useEffect } from "react";
-// import { stocksData } from "../constants/constants";
 import moneyIcon from "../assets/money.svg";
 import { useAuth } from "../context/AuthContext";
-import { getAllStocksRequest } from "../requests/stocks";
-const items = Array.from({ length: 250 }, (_, i) => `Elemento ${i + 1}`); // Lista de prueba
+import { getAllStocksRequest, buyStockRequest } from "../requests/stocks";
 const ITEMS_PER_PAGE = 7;
 
 type Stock = {
@@ -114,8 +112,24 @@ const Inicial = () => {
     }
   };
 
-  const handleBuy = (symbol: string, amount: number) => {
-    console.log("Comprar", symbol, amount);
+  const handleBuy = async (symbol: string, amount: number) => {
+    try {
+      const user_id = user?.id;
+      if (!user_id) {
+        throw new Error("User ID is undefined");
+      }
+      if (amount > 0) {
+        await buyStockRequest({
+          symbol,
+          quantity: amount,
+          funds: userFunds,
+          user_id,
+          operation: "buy",
+        });
+      }
+    } catch (error) {
+      console.error("Error buying stock:", error);
+    }
   };
 
   const handleAmountChange = (id: number, amount: number) => {
@@ -249,7 +263,12 @@ const Inicial = () => {
                     ${calculateTotal(stock.price, stock.amount || 0)}
                   </td>
                   <td>
-                    <button className="buyButton">Buy</button>
+                    <button
+                      className="buyButton"
+                      onClick={() => handleBuy(stock.symbol, stock.amount || 0)}
+                    >
+                      Buy
+                    </button>
                   </td>
                 </tr>
               ))

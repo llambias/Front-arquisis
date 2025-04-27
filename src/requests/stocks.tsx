@@ -19,6 +19,8 @@ export const buyStockRequest = async (
     ...stockRequestData,
     group_id,
   });
+  console.log("BUY STOCK RESPONSE");
+  console.log(response);
   return response.data;
 };
 
@@ -34,6 +36,13 @@ export const getAllStocksRequest = async (filters: stockFilters) => {
   const count = 150;
   const response = await axiosInstance.get("/stocks", {
     params: { ...filters, count },
+  });
+  return response.data;
+};
+
+export const getUserTransactionsRequest = async (user_id: number) => {
+  const response = await axiosInstance.get("/transactions", {
+    params: { user_id },
   });
   return response.data;
 };
