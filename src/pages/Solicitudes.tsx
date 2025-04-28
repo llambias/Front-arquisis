@@ -49,7 +49,7 @@ const Solicitudes = () => {
           </thead>
           <tbody>
             {solicitudes.map((solicitud) => (
-              <tr key={solicitud.symbol}>
+              <tr key={solicitud.request_id}>
                 <td className="symbolCell">{solicitud.symbol}</td>
                 <td>{solicitud.operation}</td>
                 <td>{solicitud.quantity}</td>
