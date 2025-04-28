@@ -9,9 +9,7 @@ const Billetera = () => {
 
   const handleUpdate = async (amount: number) => {
     try {
-      console.log("trying to update funds");
       const response = await updateFundsRequest(amount);
-      console.log(response);
       if (response.status.code === 200) {
         setNewAmount(response.data.funds);
         localStorage.setItem(
@@ -23,7 +21,7 @@ const Billetera = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

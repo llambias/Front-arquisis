@@ -1,39 +1,74 @@
 import "./Inicial.css";
-import React, { useState } from "react";
-import { stocksData } from "../constants/constants";
+import React, { useState, useEffect } from "react";
 import moneyIcon from "../assets/money.svg";
 import { useAuth } from "../context/AuthContext";
-const items = Array.from({ length: 250 }, (_, i) => `Elemento ${i + 1}`); // Lista de prueba
+import { getAllStocksRequest, buyStockRequest } from "../requests/stocks";
 const ITEMS_PER_PAGE = 7;
 
 type Stock = {
+  id: number;
   symbol: string;
-  name: string;
+  short_name: string;
+  long_name: string;
   price: number;
   quantity: number;
   amount?: number;
+  timestamp: string;
 };
+
+type stockFilters = {
+  price?: string;
+  quantity?: string;
+  date?: string;
+};
+
+function toDatetimeLocal(isoString) {
+  const date = new Date(isoString);
+  // Get the local time in the format YYYY-MM-DDTHH:mm
+  const offset = date.getTimezoneOffset();
+  const localDate = new Date(date.getTime() - offset * 60 * 1000);
+  return localDate.toISOString().slice(0, 16);
+}
 
 const Inicial = () => {
   const { user } = useAuth();
   const userFunds = user?.funds || 0;
   const [currentPage, setCurrentPage] = useState(1);
-  const [stocks, setStocks] = useState<Stock[]>(
-    stocksData.map((stock) => ({ ...stock, amount: 0 }))
-  );
+  const [stocks, setStocks] = useState<Stock[]>([]);
   const [sortField, setSortField] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
-  const [filters, setFilters] = useState({
-    symbol: "",
-    price: "",
-    quantity: "",
-    date: "",
+  const [filters, setFilters] = useState<stockFilters>({
+    price: undefined,
+    quantity: undefined,
+    date: undefined,
   });
 
-  const totalPages = Math.ceil(stocks.length / ITEMS_PER_PAGE);
+  const fetchStocks = async () => {
+    const stocks = await getAllStocksRequest({
+      ...filters,
+      price: filters.price ? Number(filters.price) : undefined,
+      quantity: filters.quantity ? Number(filters.quantity) : undefined,
+      timestamp: filters.date
+        ? new Date(filters.date).toISOString()
+        : undefined,
+    });
+    setStocks(
+      stocks.map((stock) => ({
+        ...stock,
+        amount: 0,
+        timestamp: toDatetimeLocal(stock.timestamp),
+      }))
+    );
+  };
 
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentItems = items.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  useEffect(() => {
+    try {
+      fetchStocks();
+    } catch (error) {
+      console.error("Error fetching stocks:", error);
+      setStocks([]);
+    }
+  }, []);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -67,20 +102,40 @@ const Inicial = () => {
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentStocks = stocks.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(stocks.length / ITEMS_PER_PAGE);
 
-  const handleFilter = () => {
-    console.log("Filtrar");
-    console.log(filters);
+  const handleFilter = async () => {
+    try {
+      await fetchStocks();
+    } catch (error) {
+      setStocks([]);
+    }
   };
 
-  const handleBuy = (symbol: string, amount: number) => {
-    console.log("Comprar", symbol, amount);
+  const handleBuy = async (symbol: string, amount: number) => {
+    try {
+      const user_id = user?.id;
+      if (!user_id) {
+        throw new Error("User ID is undefined");
+      }
+      if (amount > 0) {
+        await buyStockRequest({
+          symbol,
+          quantity: amount,
+          funds: userFunds,
+          user_id,
+          operation: "buy",
+        });
+      }
+    } catch (error) {
+      console.error("Error buying stock:", error);
+    }
   };
 
-  const handleAmountChange = (symbol: string, amount: number) => {
+  const handleAmountChange = (id: number, amount: number) => {
     setStocks((prevStocks) =>
       prevStocks.map((stock) =>
-        stock.symbol === symbol ? { ...stock, amount: amount } : stock
+        stock.id === id ? { ...stock, amount: amount } : stock
       )
     );
   };
@@ -119,38 +174,27 @@ const Inicial = () => {
       </div>
       <div className="pagination">
         <input
-          type="text"
-          placeholder="Símbolo"
-          className="filter-input"
-          value={filters.symbol}
-          onChange={(e) => setFilters({ ...filters, symbol: e.target.value })}
-        />
-        <input
           type="number"
           placeholder="Precio máximo"
           className="filter-input"
-          value={filters.price}
+          value={filters.price ?? ""}
           onChange={(e) => setFilters({ ...filters, price: e.target.value })}
         />
         <input
           type="number"
           placeholder="Cantidad"
           className="filter-input"
-          value={filters.quantity}
+          value={filters.quantity ?? ""}
           onChange={(e) => setFilters({ ...filters, quantity: e.target.value })}
         />
         <input
-          type="date"
+          type="datetime-local"
           placeholder="Fecha"
           className="filter-input"
-          value={filters.date}
+          value={filters.date ?? ""}
           onChange={(e) => setFilters({ ...filters, date: e.target.value })}
         />
-        <button
-          className="paginationButton"
-          onClick={handleFilter}
-          disabled={currentPage === totalPages}
-        >
+        <button className="paginationButton" onClick={handleFilter}>
           Filtrar
         </button>
       </div>
@@ -161,8 +205,11 @@ const Inicial = () => {
               <th onClick={() => handleSort("symbol")} className="sortable">
                 Symbol {getSortIndicator("symbol")}
               </th>
-              <th onClick={() => handleSort("name")} className="sortable">
-                Name {getSortIndicator("name")}
+              <th onClick={() => handleSort("short_name")} className="sortable">
+                Short Name {getSortIndicator("short_name")}
+              </th>
+              <th onClick={() => handleSort("long_name")} className="sortable">
+                Long Name {getSortIndicator("long_name")}
               </th>
               <th onClick={() => handleSort("price")} className="sortable">
                 Price ($) {getSortIndicator("price")}
@@ -170,50 +217,71 @@ const Inicial = () => {
               <th onClick={() => handleSort("quantity")} className="sortable">
                 Quantity {getSortIndicator("quantity")}
               </th>
+              <th onClick={() => handleSort("timestamp")} className="sortable">
+                Timestamp {getSortIndicator("timestamp")}
+              </th>
               <th>Amount</th>
               <th>Total ($)</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {currentStocks.map((stock) => (
-              <tr key={stock.symbol}>
-                <td className="symbolCell">{stock.symbol}</td>
-                <td>{stock.name}</td>
-                <td className="priceCell">${stock.price.toFixed(2)}</td>
-                <td>{stock.quantity}</td>
-                <td>
-                  <input
-                    type="number"
-                    min="0"
-                    max={stock.quantity}
-                    value={stock.amount || 0}
-                    onChange={(e) =>
-                      handleAmountChange(
-                        stock.symbol,
-                        parseInt(e.target.value) || 0
-                      )
-                    }
-                    className="amount-input"
-                  />
-                </td>
+            {currentStocks.length > 0 ? (
+              currentStocks.map((stock) => (
+                <tr key={stock.id}>
+                  <td className="symbolCell">{stock.symbol}</td>
+                  <td>{stock.short_name}</td>
+                  <td>{stock.long_name}</td>
+                  <td className="priceCell">${stock.price.toFixed(2)}</td>
+                  <td>{stock.quantity}</td>
+                  <td>{stock.timestamp}</td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      max={stock.quantity}
+                      value={stock.amount || 0}
+                      onChange={(e) =>
+                        handleAmountChange(
+                          stock.id,
+                          parseInt(e.target.value) || 0
+                        )
+                      }
+                      className="amount-input"
+                    />
+                  </td>
+                  <td
+                    className="priceCell"
+                    style={{
+                      color:
+                        Number(calculateTotal(stock.price, stock.amount || 0)) >
+                        userFunds
+                          ? "red"
+                          : "black",
+                    }}
+                  >
+                    ${calculateTotal(stock.price, stock.amount || 0)}
+                  </td>
+                  <td>
+                    <button
+                      className="buyButton"
+                      onClick={() => handleBuy(stock.symbol, stock.amount || 0)}
+                    >
+                      Buy
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
                 <td
-                  className="priceCell"
-                  style={{
-                    color:
-                      Number(calculateTotal(stock.price, stock.amount || 0)) >
-                      userFunds
-                        ? "red"
-                        : "black",
-                  }}
+                  colSpan={10}
+                  style={{ textAlign: "center", fontStyle: "italic" }}
                 >
-                  ${calculateTotal(stock.price, stock.amount || 0)}
-                </td>
-                <td>
-                  <button className="buyButton">Buy</button>
+                  No hay acciones disponibles
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
         {currentStocks.length > 0 && (
