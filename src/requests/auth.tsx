@@ -1,6 +1,4 @@
-import { axiosInstance, authInstance } from "./axios";
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { authInstance } from "./axios";
 
 export const registerRequest = async (
   email: string,
