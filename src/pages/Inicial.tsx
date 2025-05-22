@@ -1,5 +1,6 @@
 import "./Inicial.css";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import moneyIcon from "../assets/money.svg";
 import { useAuth } from "../context/AuthContext";
 import { getAllStocksRequest, buyStockRequest } from "../requests/stocks";
@@ -33,6 +34,7 @@ function toDatetimeLocal(isoString) {
 const Inicial = () => {
   const { user } = useAuth();
   const userFunds = user?.funds || 0;
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [sortField, setSortField] = useState("");
@@ -112,27 +114,65 @@ const Inicial = () => {
     }
   };
 
-  const handleBuy = async (symbol: string, amount: number) => {
+  const handleBuy = async (
+    symbol: string,
+    longName: string,
+    amount: number,
+    price: number
+  ) => {
     try {
       const user_id = user?.id;
       if (!user_id) {
         throw new Error("User ID is undefined");
       }
+      if (amount * price > userFunds) {
+        return;
+      }
       if (amount > 0) {
-        await buyStockRequest({
-          symbol,
-          quantity: amount,
-          funds: userFunds,
-          user_id,
-          operation: "buy",
-        });
+        // const response = await buyStockRequest({
+        //   symbol,
+        //   quantity: amount,
+        //   funds: userFunds,
+        //   user_id,
+        //   operation: "buy",
+        // });
+
+        // const { url, token } = response?.data;
+        const url = "https://www.google.com";
+        const token = "1234567890";
+
+        if (url && token) {
+          console.log("Purchase Data");
+          console.log({
+            url,
+            token,
+            amount,
+            title: symbol,
+            name: longName,
+            price: price,
+          });
+          navigate(`/confirm-purchase`, {
+            state: {
+              url,
+              token,
+              amount,
+              title: symbol,
+              name: longName,
+              type: "buy",
+              price: price,
+            },
+          });
+        }
       }
     } catch (error) {
       console.error("Error buying stock:", error);
     }
   };
 
-  const handleAmountChange = (id: number, amount: number) => {
+  const handleAmountChange = (id: number, amount: number, quantity: number) => {
+    if (amount > quantity) {
+      return;
+    }
     setStocks((prevStocks) =>
       prevStocks.map((stock) =>
         stock.id === id ? { ...stock, amount: amount } : stock
@@ -244,7 +284,8 @@ const Inicial = () => {
                       onChange={(e) =>
                         handleAmountChange(
                           stock.id,
-                          parseInt(e.target.value) || 0
+                          parseInt(e.target.value) || 0,
+                          stock.quantity || 0
                         )
                       }
                       className="amount-input"
@@ -265,7 +306,14 @@ const Inicial = () => {
                   <td>
                     <button
                       className="buyButton"
-                      onClick={() => handleBuy(stock.symbol, stock.amount || 0)}
+                      onClick={() =>
+                        handleBuy(
+                          stock.symbol,
+                          stock.long_name,
+                          stock.amount || 0,
+                          stock.price || 0
+                        )
+                      }
                     >
                       Buy
                     </button>
