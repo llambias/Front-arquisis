@@ -44,3 +44,18 @@ export const getUserTransactionsRequest = async (user_id: number) => {
   });
   return response.data;
 };
+
+export const createTransbankPaymentRequest = async (amount: number) => {
+  const response = await axiosInstance.post("/transactions/transbank/create", {
+    amount,
+  });
+  return response.data;
+};
+
+
+export const commitTransbankPaymentRequest = async (token: string) => {
+  const response = await axiosInstance.get("/transactions/transbank/commit", {
+    params: { token_ws: token },
+  });
+  return response.data;
+};

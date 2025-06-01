@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import moneyIcon from "../assets/money.svg";
 import { useAuth } from "../context/AuthContext";
-import { getAllStocksRequest, buyStockRequest } from "../requests/stocks";
+import {
+  getAllStocksRequest,
+  buyStockRequest,
+  createTransbankPaymentRequest,
+} from "../requests/stocks";
 const ITEMS_PER_PAGE = 7;
 
 type Stock = {
@@ -136,10 +140,9 @@ const Inicial = () => {
         //   user_id,
         //   operation: "buy",
         // });
-
-        // const { url, token } = response?.data;
-        const url = "https://www.google.com";
-        const token = "1234567890";
+        const response = await createTransbankPaymentRequest(amount * price);
+        const url = response?.url;
+        const token = response?.token;
 
         if (url && token) {
           console.log("Purchase Data");

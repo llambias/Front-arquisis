@@ -16,18 +16,16 @@ const ConfirmPurchase = () => {
 
   const totalPrice = purchaseData.price * purchaseData.amount;
 
-  const handleConfirmPurchase = () => {
-    console.log("Confirm Purchase");
-  };
-
   return (
-    <div className="confirm-purchase-container">
-      {/* <div className="confirm-purchase-card"> */}
+    <form
+      className="confirm-purchase-container"
+      action={purchaseData.url}
+      method="POST"
+    >
       <h1 className="confirm-purchase-title">Confirma tu compra</h1>
       <p className="confirm-purchase-description">
         Por favor, revisa los detalles de tu compra antes de confirmar.
       </p>
-
       <div className="purchase-details">
         <div className="purchase-detail-row">
           <span className="detail-label">Symbol:</span>
@@ -50,17 +48,16 @@ const ConfirmPurchase = () => {
           <span className="detail-value">${totalPrice.toFixed(2)}</span>
         </div>
       </div>
-
+      <input type="hidden" name="token_ws" value={purchaseData.token} />
       <div className="button-group">
-        <button onClick={handleConfirmPurchase} className="confirm-button">
+        <button className="confirm-button" type="submit">
           Confirmar compra
         </button>
         <Link to="/stocks">
           <button className="cancel-button">Cancelar</button>
         </Link>
       </div>
-      {/* </div> */}
-    </div>
+    </form>
   );
 };
 

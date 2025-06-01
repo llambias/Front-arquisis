@@ -1,0 +1,48 @@
+.purchase-completed-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.purchase-completed-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.completed-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #000000;
+}
+
+.completed-emoji {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.completed-message {
+  color: #666;
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+}
+
+.completed-reference {
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.reference-number {
+  font-weight: 600;
+  color: #333;
+}
