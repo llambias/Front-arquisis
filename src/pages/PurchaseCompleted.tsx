@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./PurchaseCompleted.css";
 import { commitTransbankPaymentRequest } from "../requests/stocks";
+import { useAuth } from "../context/AuthContext";
 
 import { Link } from "react-router-dom";
 
@@ -16,14 +17,12 @@ export default function PurchaseCompletedPage() {
   const [loading, setLoading] = useState(true);
   const [transaction, setTransaction] =
     useState<commitTransbankPaymentResponse | null>(null);
-
+  const { user } = useAuth();
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("token_ws");
     if (token) {
-      console.log(token);
-      commitTransbankPaymentRequest(token)
+      commitTransbankPaymentRequest(token, user?.id || 0)
         .then((res: commitTransbankPaymentResponse) => {
-          console.log(res);
           if (res.response_code === 0) {
             setTransaction({
               amount: res.amount,
@@ -50,8 +49,6 @@ export default function PurchaseCompletedPage() {
       </div>
     );
   }
-
-  console.log(token);
 
   return (
     <div className="purchase-completed-container">

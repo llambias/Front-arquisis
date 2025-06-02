@@ -145,25 +145,25 @@ const Inicial = () => {
         const token = response?.token;
 
         if (url && token) {
-          console.log("Purchase Data");
-          console.log({
-            url,
-            token,
-            amount,
-            title: symbol,
-            name: longName,
-            price: price,
-          });
-          navigate(`/confirm-purchase`, {
-            state: {
-              url,
-              token,
-              amount,
-              title: symbol,
-              name: longName,
-              type: "buy",
-              price: price,
-            },
+          await buyStockRequest({
+            user_id,
+            quantity: amount,
+            funds: userFunds,
+            symbol,
+            operation: "buy",
+            token_ws: token,
+          }).then(() => {
+            navigate(`/confirm-purchase`, {
+              state: {
+                url,
+                token,
+                amount,
+                title: symbol,
+                name: longName,
+                type: "buy",
+                price: price,
+              },
+            });
           });
         }
       }

@@ -7,6 +7,7 @@ type buyStockRequestInputs = {
   funds: number;
   symbol: string;
   operation: string;
+  token_ws: string;
 };
 
 export const buyStockRequest = async (
@@ -17,8 +18,6 @@ export const buyStockRequest = async (
     ...stockRequestData,
     group_id,
   });
-  console.log("BUY STOCK RESPONSE");
-  console.log(response);
   return response.data;
 };
 
@@ -52,10 +51,12 @@ export const createTransbankPaymentRequest = async (amount: number) => {
   return response.data;
 };
 
-
-export const commitTransbankPaymentRequest = async (token: string) => {
+export const commitTransbankPaymentRequest = async (
+  token: string,
+  user_id: number
+) => {
   const response = await axiosInstance.get("/transactions/transbank/commit", {
-    params: { token_ws: token },
+    params: { token_ws: token, user_id },
   });
   return response.data;
 };
