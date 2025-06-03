@@ -1,0 +1,33 @@
+name: CI Frontend
+
+on:
+  pull_request:
+  push:
+    branches: [feat/ci-setup]
+
+jobs:
+  check-and-lint:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Falla si hay archivos .env subidos
+        run: |
+          if git ls-files | grep -q '\.env'; then
+            echo "Error: Archivo .env detectado en el repositorio."
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run ESLint
+        run: yarn eslint .
+        continue-on-error: true
