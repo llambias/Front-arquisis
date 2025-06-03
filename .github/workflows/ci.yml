@@ -3,7 +3,7 @@ name: CI Frontend
 on:
   pull_request:
   push:
-    branches: [feat/ci-setup]
+    branches: [development]
 
 jobs:
   check-and-lint:
