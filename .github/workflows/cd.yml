@@ -7,7 +7,7 @@ on:
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-22.04
@@ -15,6 +15,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Crear archivo .env dinámico
+        run: |
+          echo "VITE_API_URL="https://api.felipevalderrama.me"" >> .env
+          echo "VITE_AUTH_API_URL="https://auth-service.felipevalderrama.me"" >> .env
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -34,10 +39,10 @@ jobs:
           aws-region: us-east-1
 
       - name: Sync build to S3
-        run: aws s3 sync dist/ s3://g25-arquisis-prueba --delete
+        run: aws s3 sync dist/ s3://g25-arquisis --delete
 
-      #- name: Invalidate CloudFront cache
-      #  run: |
-      #    aws cloudfront create-invalidation \
-      #      --distribution-id E2SL1XO9OOOE6B \
-      #      --paths "/*"
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E2SL1XO9OOOE6B \
+            --paths "/*"
