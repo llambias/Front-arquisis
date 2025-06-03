@@ -39,7 +39,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Sync build to S3
-        run: aws s3 sync dist/ s3://g25-arquisis --delete
+        run: aws s3 sync dist/ s3://g25-arqui --delete
 
       - name: Invalidate CloudFront cache
         run: |
