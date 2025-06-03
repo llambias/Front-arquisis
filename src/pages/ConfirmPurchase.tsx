@@ -9,6 +9,7 @@ type PurchaseData = {
   symbol: string;
   name: string;
   price: number;
+  request_id: string;
 };
 
 const ConfirmPurchase = () => {

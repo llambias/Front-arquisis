@@ -44,8 +44,12 @@ export const getUserTransactionsRequest = async (user_id: number) => {
   return response.data;
 };
 
-export const createTransbankPaymentRequest = async (amount: number) => {
+export const createTransbankPaymentRequest = async (
+  request_id: string,
+  amount: number
+) => {
   const response = await axiosInstance.post("/transactions/transbank/create", {
+    request_id,
     amount,
   });
   return response.data;

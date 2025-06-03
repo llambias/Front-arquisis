@@ -118,12 +118,7 @@ const Inicial = () => {
     }
   };
 
-  const handleBuy = async (
-    symbol: string,
-    longName: string,
-    amount: number,
-    price: number
-  ) => {
+  const handleBuy = async (symbol: string, amount: number, price: number) => {
     try {
       const user_id = user?.id;
       if (!user_id) {
@@ -133,39 +128,16 @@ const Inicial = () => {
         return;
       }
       if (amount > 0) {
-        // const response = await buyStockRequest({
-        //   symbol,
-        //   quantity: amount,
-        //   funds: userFunds,
-        //   user_id,
-        //   operation: "buy",
-        // });
-        const response = await createTransbankPaymentRequest(amount * price);
-        const url = response?.url;
-        const token = response?.token;
-
-        if (url && token) {
-          await buyStockRequest({
-            user_id,
-            quantity: amount,
-            funds: userFunds,
-            symbol,
-            operation: "buy",
-            token_ws: token,
-          }).then(() => {
-            navigate(`/confirm-purchase`, {
-              state: {
-                url,
-                token,
-                amount,
-                title: symbol,
-                name: longName,
-                type: "buy",
-                price: price,
-              },
-            });
-          });
-        }
+        await buyStockRequest({
+          symbol,
+          quantity: amount,
+          funds: userFunds,
+          user_id,
+          operation: "buy",
+          token_ws: "token_ws",
+        }).then(() => {
+          navigate(`/solicitudes`);
+        });
       }
     } catch (error) {
       console.error("Error buying stock:", error);
@@ -312,7 +284,6 @@ const Inicial = () => {
                       onClick={() =>
                         handleBuy(
                           stock.symbol,
-                          stock.long_name,
                           stock.amount || 0,
                           stock.price || 0
                         )
