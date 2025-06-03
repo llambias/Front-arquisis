@@ -1,6 +1,4 @@
-import { axiosInstance, authInstance } from "./axios";
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { axiosInstance } from "./axios";
 
 type buyStockRequestInputs = {
   // group_id: number;
@@ -9,6 +7,7 @@ type buyStockRequestInputs = {
   funds: number;
   symbol: string;
   operation: string;
+  token_ws: string;
 };
 
 export const buyStockRequest = async (
@@ -19,8 +18,6 @@ export const buyStockRequest = async (
     ...stockRequestData,
     group_id,
   });
-  console.log("BUY STOCK RESPONSE");
-  console.log(response);
   return response.data;
 };
 
@@ -43,6 +40,27 @@ export const getAllStocksRequest = async (filters: stockFilters) => {
 export const getUserTransactionsRequest = async (user_id: number) => {
   const response = await axiosInstance.get("/transactions", {
     params: { user_id },
+  });
+  return response.data;
+};
+
+export const createTransbankPaymentRequest = async (
+  request_id: string,
+  amount: number
+) => {
+  const response = await axiosInstance.post("/transactions/transbank/create", {
+    request_id,
+    amount,
+  });
+  return response.data;
+};
+
+export const commitTransbankPaymentRequest = async (
+  token: string,
+  user_id: number
+) => {
+  const response = await axiosInstance.get("/transactions/transbank/commit", {
+    params: { token_ws: token, user_id },
   });
   return response.data;
 };

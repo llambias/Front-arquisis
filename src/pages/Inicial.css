@@ -86,6 +86,11 @@
   background-color: #4338ca;
 }
 
+.buyButton:disabled {
+  background-color: #aaaaaa;
+  cursor: default;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .stocksTable th,

@@ -1,8 +1,13 @@
 import "./Inicial.css";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import moneyIcon from "../assets/money.svg";
 import { useAuth } from "../context/AuthContext";
-import { getAllStocksRequest, buyStockRequest } from "../requests/stocks";
+import {
+  getAllStocksRequest,
+  buyStockRequest,
+  createTransbankPaymentRequest,
+} from "../requests/stocks";
 const ITEMS_PER_PAGE = 7;
 
 type Stock = {
@@ -33,6 +38,7 @@ function toDatetimeLocal(isoString) {
 const Inicial = () => {
   const { user } = useAuth();
   const userFunds = user?.funds || 0;
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [sortField, setSortField] = useState("");
@@ -112,11 +118,14 @@ const Inicial = () => {
     }
   };
 
-  const handleBuy = async (symbol: string, amount: number) => {
+  const handleBuy = async (symbol: string, amount: number, price: number) => {
     try {
       const user_id = user?.id;
       if (!user_id) {
         throw new Error("User ID is undefined");
+      }
+      if (amount * price > userFunds) {
+        return;
       }
       if (amount > 0) {
         await buyStockRequest({
@@ -125,6 +134,9 @@ const Inicial = () => {
           funds: userFunds,
           user_id,
           operation: "buy",
+          token_ws: "token_ws",
+        }).then(() => {
+          navigate(`/solicitudes`);
         });
       }
     } catch (error) {
@@ -132,7 +144,10 @@ const Inicial = () => {
     }
   };
 
-  const handleAmountChange = (id: number, amount: number) => {
+  const handleAmountChange = (id: number, amount: number, quantity: number) => {
+    if (amount > quantity) {
+      return;
+    }
     setStocks((prevStocks) =>
       prevStocks.map((stock) =>
         stock.id === id ? { ...stock, amount: amount } : stock
@@ -244,7 +259,8 @@ const Inicial = () => {
                       onChange={(e) =>
                         handleAmountChange(
                           stock.id,
-                          parseInt(e.target.value) || 0
+                          parseInt(e.target.value) || 0,
+                          stock.quantity || 0
                         )
                       }
                       className="amount-input"
@@ -265,7 +281,13 @@ const Inicial = () => {
                   <td>
                     <button
                       className="buyButton"
-                      onClick={() => handleBuy(stock.symbol, stock.amount || 0)}
+                      onClick={() =>
+                        handleBuy(
+                          stock.symbol,
+                          stock.amount || 0,
+                          stock.price || 0
+                        )
+                      }
                     >
                       Buy
                     </button>
