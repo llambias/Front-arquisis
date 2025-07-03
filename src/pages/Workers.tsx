@@ -1,4 +1,4 @@
-import "./Workers.css";
+import "./Solicitudes.css";
 import React from "react";
 import { useState, useEffect } from "react";
 // import { solicitudesData } from "../constants/constants";
