@@ -10,20 +10,20 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-// type TransactionType = {
-//   request_id: string;
-//   user_id: number;
-//   symbol: string;
-//   group_id: string;
-//   operation: string;
-//   quantity: number;
-//   status: string;
-//   timestamp: string;
-//   price: number;
-// };
+type TransactionType = {
+  request_id: string;
+  user_id: number;
+  symbol: string;
+  group_id: string;
+  quantity: number;
+  status: string;
+  timestamp: string;
+  currentPrice: number;
+  predictedPrice: number;
+};
 
 const Workers= () => {
-  const [solicitudes, setSolicitudes] = useState([]);
+  const [solicitudes, setSolicitudes] = useState<TransactionType[]>([]);
   const { user } = useAuth();
   const user_id = user?.id;
   const userFunds = user?.funds;

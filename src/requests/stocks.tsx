@@ -39,6 +39,7 @@ export const getAllStocksRequest = async (filters: stockFilters) => {
 
 type WorkerFilters = {
   price?: number;
+  user_id?: number;
   quantity?: number;
   timestamp?: string;
   symbol?: string;
@@ -46,11 +47,9 @@ type WorkerFilters = {
   // count?: number;
 };
 
-export const getAllWorkersRequest = async (filters: WorkerFilters) => {
+export const getAllWorkersRequest = async (user_id: number) => {
   const count = 150;
-  const response = await axiosInstance.get("/job", {
-    params: { ...filters, count },
-  });
+  const response = await axiosInstance.get(`/job:${user_id}`);
   return response.data;
 };
 
