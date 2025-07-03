@@ -1,4 +1,4 @@
-import "./workers.css";
+import "./Workers.css";
 import React from "react";
 import { useState, useEffect } from "react";
 // import { solicitudesData } from "../constants/constants";
@@ -63,10 +63,10 @@ const Workers= () => {
                 <td className="symbolCell">{solicitud.symbol}</td>
                 <td>{solicitud.quantity}</td>
                 <td className="priceCell">
-                  ${solicitud.price.toLocaleString("es-CL")}
+                  ${solicitud.currentPrice.toLocaleString("es-CL")}
                 </td>
                 <td className="priceCell">
-                  ${solicitud.price.toLocaleString("es-CL")}
+                  ${solicitud.predictedPrice.toLocaleString("es-CL")}
                 </td>
         
                 
