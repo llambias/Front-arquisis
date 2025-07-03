@@ -7,6 +7,7 @@ import Solicitudes from "./pages/Solicitudes";
 import Billetera from "./pages/Billetera";
 import ConfirmPurchase from "./pages/ConfirmPurchase";
 import PurchaseCompleted from "./pages/PurchaseCompleted";
+import Workers from "./pages/Workers";
 import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 
@@ -40,6 +41,7 @@ function Router() {
         <Route path={"/billetera"} element={<Billetera />} />
         <Route path={"/confirm-purchase"} element={<ConfirmPurchase />} />
         <Route path={"/purchase-completed"} element={<PurchaseCompleted />} />
+        <Route path={"/workers"} element={<Workers />} />
       </Route>
     </Routes>
   );

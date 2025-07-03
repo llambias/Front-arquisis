@@ -37,12 +37,31 @@ export const getAllStocksRequest = async (filters: stockFilters) => {
   return response.data;
 };
 
+type WorkerFilters = {
+  price?: number;
+  quantity?: number;
+  timestamp?: string;
+  symbol?: string;
+  // page?: number;
+  // count?: number;
+};
+
+export const getAllWorkersRequest = async (filters: WorkerFilters) => {
+  const count = 150;
+  const response = await axiosInstance.get("/job", {
+    params: { ...filters, count },
+  });
+  return response.data;
+};
+
 export const getUserTransactionsRequest = async (user_id: number) => {
   const response = await axiosInstance.get("/transactions", {
     params: { user_id },
   });
   return response.data;
 };
+
+
 
 export const createTransbankPaymentRequest = async (
   request_id: string,
